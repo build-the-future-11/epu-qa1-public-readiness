@@ -2,8 +2,25 @@
 name = "epu-qa1-public-readiness"
 version = "0.1.1"
 description = "Evidence-preserving public verification for EPU-QA1"
+readme = "README.md"
 requires-python = ">=3.11"
 license = "BSD-3-Clause"
+authors = [{ name = "Ryan" }]
+keywords = ["reproducibility", "verification", "research-software", "evidence"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: BSD License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+]
+
+[project.urls]
+Repository = "https://github.com/build-the-future-11/epu-qa1-public-readiness"
+Issues = "https://github.com/build-the-future-11/epu-qa1-public-readiness/issues"
 
 [tool.ruff]
 target-version = "py311"

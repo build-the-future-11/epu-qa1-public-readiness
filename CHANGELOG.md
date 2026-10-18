@@ -8,6 +8,10 @@
 - Made verification receipts durable and explicitly record interruptions.
 - Added a canonical manifest digest and regression tests for the new verifier
   guarantees.
+- Constrained receipt output beneath `verification/` and redacted local
+  checkout, interpreter, and run paths from public receipts.
+- Added a reviewer-facing evidence map, release metadata, and regression checks
+  that prevent version and local-documentation links from drifting.
 - Pinned CI actions to immutable commits, disabled persisted checkout
   credentials, fixed the runner image, pinned Ruff, bounded job time, and set
   explicit artifact retention.

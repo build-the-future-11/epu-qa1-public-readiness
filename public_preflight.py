@@ -95,6 +95,26 @@ def ast_checks(paths: list[Path]) -> dict[str, int]:
     return {"python_files": len(paths), "strict_zip_calls": zip_calls}
 
 
+def portable_text(value: str, *, scratch: Path) -> str:
+    """Remove checkout- and run-specific absolute paths from public receipts."""
+    replacements = (
+        (str(scratch.parent.resolve()), "<OUTPUT>"),
+        (str(HERE), "<REPOSITORY>"),
+    )
+    for original, replacement in replacements:
+        value = value.replace(original, replacement)
+    return value
+
+
+def validated_output(path: Path) -> Path:
+    """Return a new output path strictly beneath this release's verification tree."""
+    verification = (HERE / "verification").resolve()
+    resolved = path.resolve(strict=False)
+    if resolved == verification or not resolved.is_relative_to(verification):
+        raise ValueError("--output must be a new directory beneath verification/")
+    return resolved
+
+
 def command(args: list[str], *, timeout: int, scratch: Path) -> dict[str, object]:
     env = {
         "PATH": os.environ.get("PATH", ""),
@@ -120,7 +140,14 @@ def command(args: list[str], *, timeout: int, scratch: Path) -> dict[str, object
     output = completed.stdout
     if len(output.encode("utf-8")) > 1_000_000:
         raise ValueError("verification command output exceeded bound")
-    return {"argv": args, "exit_code": completed.returncode, "output": output}
+    recorded_args = list(args)
+    if recorded_args and Path(recorded_args[0]).is_absolute():
+        recorded_args[0] = Path(recorded_args[0]).name
+    return {
+        "argv": [portable_text(value, scratch=scratch) for value in recorded_args],
+        "exit_code": completed.returncode,
+        "output": portable_text(output, scratch=scratch),
+    }
 
 
 def write_new(path: Path, value: object) -> None:
@@ -142,8 +169,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    args.output.mkdir(parents=True, exist_ok=False)
-    scratch = args.output / "tmp"
+    output = validated_output(args.output)
+    output.mkdir(parents=True, exist_ok=False)
+    scratch = output / "tmp"
     scratch.mkdir()
     receipt: dict[str, object] = {
         "schema_version": 1,
@@ -206,14 +234,18 @@ def main() -> int:
         receipt["status"] = "PASS_PUBLIC_SOURCE_REVIEW"
         code = 0
     except (KeyboardInterrupt, SystemExit) as exc:
-        receipt.update(status="INTERRUPTED", error=f"{type(exc).__name__}: {exc}")
+        error = portable_text(f"{type(exc).__name__}: {exc}", scratch=scratch)
+        receipt.update(status="INTERRUPTED", error=error)
         raise
     except Exception as exc:
-        receipt.update(status="FAIL_PUBLIC_SOURCE_REVIEW", error=f"{type(exc).__name__}: {exc}")
+        error = portable_text(f"{type(exc).__name__}: {exc}", scratch=scratch)
+        receipt.update(status="FAIL_PUBLIC_SOURCE_REVIEW", error=error)
     finally:
         receipt["finished_at"] = now()
-        write_new(args.output / "RECEIPT.json", receipt)
-        print(json.dumps({"status": receipt["status"], "receipt": str(args.output / "RECEIPT.json")}))
+        receipt_path = output / "RECEIPT.json"
+        write_new(receipt_path, receipt)
+        display_path = portable_text(str(receipt_path), scratch=scratch)
+        print(json.dumps({"status": receipt["status"], "receipt": display_path}))
     return code
 
 

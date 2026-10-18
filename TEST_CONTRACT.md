@@ -6,7 +6,7 @@ Run from the package directory:
 python3 -B public_preflight.py --output verification/local-unique-id
 ```
 
-The v0.1.1 public gate passes 88 small standard-library tests. No real dataset
+The v0.1.1 public gate passes 92 small standard-library tests. No real dataset
 was opened. Native-reference parity cases read only the bundled, digest-pinned
 reference source. `public_preflight.py` supplies the isolated import and fixture
 environment used by the contract, so raw discovery without that environment is
@@ -18,7 +18,7 @@ not the supported complete gate.
 | `test_numerical_contract.py` | 7 | Unchanged E5 normalization and supported beta domain |
 | `test_retained_science.py` | 27 | 14 unchanged model cases, five data/matrix cases, eight endpoint/statistics cases selected explicitly from retained legacy sources |
 | `test_completed_bundle_contract.py` | 17 | Six unchanged accumulator cases and eleven completed-bundle integrity/regeneration cases adapted to call the unchanged completed-run validator |
-| `test_public_hardening.py` | 8 | Public manifest exclusions, link refusal, exclusive durable receipts, interrupt classification, strict vector alignment, and configuration validation |
+| `test_public_hardening.py` | 12 | Public manifest exclusions, link refusal, output containment, path-redacted and exclusive durable receipts, metadata/link consistency, interrupt classification, strict vector alignment, and configuration validation |
 
 The original E5 test files remain byte-identical under `legacy_test_*.py`. They
 are not default-discovered as standalone R1 suites because their old dry-run CLI,
