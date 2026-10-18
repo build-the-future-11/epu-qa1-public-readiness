@@ -9,7 +9,8 @@
 - Added a canonical manifest digest and regression tests for the new verifier
   guarantees.
 - Pinned CI actions to immutable commits, disabled persisted checkout
-  credentials, bounded job time, and set explicit artifact retention.
+  credentials, fixed the runner image, pinned Ruff, bounded job time, and set
+  explicit artifact retention.
 
 ## 0.1.0 - 2026-10-18
 
