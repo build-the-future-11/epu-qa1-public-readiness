@@ -1,0 +1,33 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  public-source-review:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: astral-sh/ruff-action@v3
+      - name: Run bounded public verification
+        run: >-
+          python -B public_preflight.py
+          --output verification/ci-${{ matrix.python-version }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-${{ matrix.python-version }}
+          path: verification/ci-${{ matrix.python-version }}/RECEIPT.json
+          if-no-files-found: error
+

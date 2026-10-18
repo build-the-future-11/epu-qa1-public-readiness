@@ -1,0 +1,114 @@
+{
+  "ast": {
+    "python_files": 9,
+    "strict_zip_calls": 36
+  },
+  "checks": [
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.15/bin/python3.15",
+        "-B",
+        "-m",
+        "compileall",
+        "-q",
+        "public_preflight.py",
+        "candidate",
+        "auditor",
+        "tests"
+      ],
+      "exit_code": 0,
+      "name": "compileall",
+      "output": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/opt/python@3.15/bin/python3.15",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "name": "generated_and_contract_tests",
+      "output": "test_bad_receipt_refused_before_raw_access (test_completed_bundle_contract.EvidenceTests.test_bad_receipt_refused_before_raw_access) ... ok\ntest_coherently_rehashed_table_mismatch_rejected_before_output (test_completed_bundle_contract.EvidenceTests.test_coherently_rehashed_table_mismatch_rejected_before_output) ... ok\ntest_coherently_rehashed_wrong_checkpoint_rejected (test_completed_bundle_contract.EvidenceTests.test_coherently_rehashed_wrong_checkpoint_rejected) ... ok\ntest_coherently_rehashed_wrong_summary_rejected (test_completed_bundle_contract.EvidenceTests.test_coherently_rehashed_wrong_summary_rejected) ... ok\ntest_complete_bundle_regenerates_exact_tables (test_completed_bundle_contract.EvidenceTests.test_complete_bundle_regenerates_exact_tables) ... ok\ntest_count_manifest_and_schedule_mismatches_refuse (test_completed_bundle_contract.EvidenceTests.test_count_manifest_and_schedule_mismatches_refuse) ... ok\ntest_raw_hash_tampering_detected (test_completed_bundle_contract.EvidenceTests.test_raw_hash_tampering_detected) ... ok\ntest_resource_and_runtime_contradictions_refuse (test_completed_bundle_contract.EvidenceTests.test_resource_and_runtime_contradictions_refuse) ... ok\ntest_split_overlap_and_wrong_role_rejected (test_completed_bundle_contract.EvidenceTests.test_split_overlap_and_wrong_role_rejected) ... ok\ntest_streaming_detects_replacement_during_read (test_completed_bundle_contract.EvidenceTests.test_streaming_detects_replacement_during_read) ... ok\ntest_streaming_limits_duplicates_and_symlinks (test_completed_bundle_contract.EvidenceTests.test_streaming_limits_duplicates_and_symlinks) ... ok\ntest_bad_types_domains_and_timing_refuse (test_completed_bundle_contract.SummaryTests.test_bad_types_domains_and_timing_refuse) ... ok\ntest_compact_accumulator_does_not_retain_raw_rows (test_completed_bundle_contract.SummaryTests.test_compact_accumulator_does_not_retain_raw_rows) ... ok\ntest_duplicate_empty_extra_and_missing_cells_refuse (test_completed_bundle_contract.SummaryTests.test_duplicate_empty_extra_and_missing_cells_refuse) ... ok\ntest_initial_and_repeated_direct_invariants (test_completed_bundle_contract.SummaryTests.test_initial_and_repeated_direct_invariants) ... ok\ntest_label_stable_across_conditions (test_completed_bundle_contract.SummaryTests.test_label_stable_across_conditions) ... ok\ntest_single_pass_and_order_independence (test_completed_bundle_contract.SummaryTests.test_single_pass_and_order_independence) ... ok\ntest_beta_below_numerical_domain_is_rejected (test_numerical_contract.NumericalContractTests.test_beta_below_numerical_domain_is_rejected) ... ok\ntest_beta_boundary_energy_is_finite (test_numerical_contract.NumericalContractTests.test_beta_boundary_energy_is_finite) ... ok\ntest_class_mean_training_accepts_valid_nearly_constant_pixels (test_numerical_contract.NumericalContractTests.test_class_mean_training_accepts_valid_nearly_constant_pixels) ... ok\ntest_constant_vectors_and_default_configuration_preserved (test_numerical_contract.NumericalContractTests.test_constant_vectors_and_default_configuration_preserved) ... ok\ntest_large_nearly_constant_vector_remains_centered (test_numerical_contract.NumericalContractTests.test_large_nearly_constant_vector_remains_centered) ... ok\ntest_pixel_domain_nearly_constant_vector_remains_centered (test_numerical_contract.NumericalContractTests.test_pixel_domain_nearly_constant_vector_remains_centered) ... ok\ntest_valid_legacy_normalization_outputs_are_bitwise_equal (test_numerical_contract.NumericalContractTests.test_valid_legacy_normalization_outputs_are_bitwise_equal) ... ok\ntest_auditor_dot_refuses_dimension_mismatch (test_public_hardening.StrictAlignmentTests.test_auditor_dot_refuses_dimension_mismatch) ... ok\ntest_diagnostic_covariance_refuses_unaligned_inputs (test_public_hardening.StrictAlignmentTests.test_diagnostic_covariance_refuses_unaligned_inputs) ... ok\ntest_fit_rejects_non_config_object (test_public_hardening.StrictAlignmentTests.test_fit_rejects_non_config_object) ... ok\ntest_model_dot_refuses_dimension_mismatch (test_public_hardening.StrictAlignmentTests.test_model_dot_refuses_dimension_mismatch) ... ok\ntest_any_low_sample_refuses_immediately (test_recovery_contract.AdmissionTests.test_any_low_sample_refuses_immediately) ... ok\ntest_measurement_failures_and_invalid_values_refuse (test_recovery_contract.AdmissionTests.test_measurement_failures_and_invalid_values_refuse) ... ok\ntest_mock_clock_cannot_skip_observation_duration (test_recovery_contract.AdmissionTests.test_mock_clock_cannot_skip_observation_duration) ... ok\ntest_nonincreasing_swap_is_allowed (test_recovery_contract.AdmissionTests.test_nonincreasing_swap_is_allowed) ... ok\ntest_pageout_change_and_swap_increase_refuse (test_recovery_contract.AdmissionTests.test_pageout_change_and_swap_increase_refuse) ... ok\ntest_thirty_second_window_requires_all_31_samples (test_recovery_contract.AdmissionTests.test_thirty_second_window_requires_all_31_samples) ... ok\ntest_absent_and_empty_ledger_unspent (test_recovery_contract.BudgetTests.test_absent_and_empty_ledger_unspent) ... ok\ntest_blocked_admission_never_opens_data_or_spends_attempt (test_recovery_contract.BudgetTests.test_blocked_admission_never_opens_data_or_spends_attempt) ... ok\ntest_budget_expansion_in_freeze_refuses (test_recovery_contract.BudgetTests.test_budget_expansion_in_freeze_refuses) ... ok\ntest_clone_package_cannot_reset_shared_budget (test_recovery_contract.BudgetTests.test_clone_package_cannot_reset_shared_budget) ... ok\ntest_expired_observation_window_does_not_spend (test_recovery_contract.BudgetTests.test_expired_observation_window_does_not_spend) ... ok\ntest_final_hashing_counts_toward_deadline (test_recovery_contract.BudgetTests.test_final_hashing_counts_toward_deadline) ... ok\ntest_generated_full_control_flow_completes_all_cells (test_recovery_contract.BudgetTests.test_generated_full_control_flow_completes_all_cells) ... ok\ntest_historical_change_refuses_without_repair (test_recovery_contract.BudgetTests.test_historical_change_refuses_without_repair) ... ok\ntest_inactive_changed_or_expanded_authority_refuses (test_recovery_contract.BudgetTests.test_inactive_changed_or_expanded_authority_refuses) ... ok\ntest_last_query_timeout_is_never_complete (test_recovery_contract.BudgetTests.test_last_query_timeout_is_never_complete) ... ok\ntest_locks_all_ledgers_and_preserves_history (test_recovery_contract.BudgetTests.test_locks_all_ledgers_and_preserves_history) ... ok\ntest_new_dry_phase_refuses (test_recovery_contract.BudgetTests.test_new_dry_phase_refuses) ... ok\ntest_one_reservation_spends_budget (test_recovery_contract.BudgetTests.test_one_reservation_spends_budget) ... ok\ntest_partial_malformed_duplicate_or_wrong_identity_refuse (test_recovery_contract.BudgetTests.test_partial_malformed_duplicate_or_wrong_identity_refuse) ... ok\ntest_pause_during_admission_refuses_before_reservation (test_recovery_contract.BudgetTests.test_pause_during_admission_refuses_before_reservation) ... ok\ntest_postreservation_failure_preserved_and_never_retried (test_recovery_contract.BudgetTests.test_postreservation_failure_preserved_and_never_retried) ... ok\ntest_resource_measurement_failure_preserved_before_data (test_recovery_contract.BudgetTests.test_resource_measurement_failure_preserved_before_data) ... ok\ntest_symlink_ledger_refuses (test_recovery_contract.BudgetTests.test_symlink_ledger_refuses) ... ok\ntest_sync_failure_keeps_reservation_without_opening_data (test_recovery_contract.BudgetTests.test_sync_failure_keeps_reservation_without_opening_data) ... ok\ntest_changed_source_or_dry_identity_refuses (test_recovery_contract.CompatibilityTests.test_changed_source_or_dry_identity_refuses) ... ok\ntest_existing_dry_bundle_validator_is_required_under_e5_freeze (test_recovery_contract.CompatibilityTests.test_existing_dry_bundle_validator_is_required_under_e5_freeze) ... ok\ntest_recovery_cannot_change_model_or_scientific_runner (test_recovery_contract.CompatibilityTests.test_recovery_cannot_change_model_or_scientific_runner) ... ok\ntest_scientific_source_and_execution_body_equal_predecessor (test_recovery_contract.CompatibilityTests.test_scientific_source_and_execution_body_equal_predecessor) ... ok\ntest_checkpoint_roundtrip_and_no_overwrite (legacy_test_epu_query_anchor.ModelTests.test_checkpoint_roundtrip_and_no_overwrite) ... ok\ntest_contraction_with_query_fixed (legacy_test_epu_query_anchor.ModelTests.test_contraction_with_query_fixed) ... ok\ntest_energy_descent_drift_and_invariant_domain (legacy_test_epu_query_anchor.ModelTests.test_energy_descent_drift_and_invariant_domain) ... ok\ntest_exact_one_memory_recurrence (legacy_test_epu_query_anchor.ModelTests.test_exact_one_memory_recurrence) ... ok\ntest_finite_difference_energy_gradient (legacy_test_epu_query_anchor.ModelTests.test_finite_difference_energy_gradient) ... ok\ntest_invalid_domains_fail (legacy_test_epu_query_anchor.ModelTests.test_invalid_domains_fail) ... ok\ntest_lambda_zero_and_zero_steps_preserve_query (legacy_test_epu_query_anchor.ModelTests.test_lambda_zero_and_zero_steps_preserve_query) ... ok\ntest_native_lambda_one_state_and_scores_parity (legacy_test_epu_query_anchor.ModelTests.test_native_lambda_one_state_and_scores_parity) ... ok\ntest_permuting_memories_preserves_untied_label (legacy_test_epu_query_anchor.ModelTests.test_permuting_memories_preserves_untied_label) ... ok\ntest_prepared_neighbors_match_full_sort_with_ties (legacy_test_epu_query_anchor.ModelTests.test_prepared_neighbors_match_full_sort_with_ties) ... ok\ntest_public_scores_and_energy_reject_invalid_state (legacy_test_epu_query_anchor.ModelTests.test_public_scores_and_energy_reject_invalid_state) ... ok\ntest_stable_softmax_handles_extreme_shift (legacy_test_epu_query_anchor.ModelTests.test_stable_softmax_handles_extreme_shift) ... ok\ntest_train_means_and_class_order (legacy_test_epu_query_anchor.ModelTests.test_train_means_and_class_order) ... ok\ntest_zero_and_duplicate_ties_are_visible (legacy_test_epu_query_anchor.ModelTests.test_zero_and_duplicate_ties_are_visible) ... ok\ntest_duplicate_groups_never_cross_split (legacy_test_epu_query_anchor.ExperimentTests.test_duplicate_groups_never_cross_split) ... ok\ntest_conflicting_duplicate_label_refuses (legacy_test_epu_query_anchor.ExperimentTests.test_conflicting_duplicate_label_refuses) ... ok\ntest_noise_is_reproducible_and_query_specific (legacy_test_epu_query_anchor.ExperimentTests.test_noise_is_reproducible_and_query_specific) ... ok\ntest_paired_summary_and_incomplete_refusal (legacy_test_epu_query_anchor.ExperimentTests.test_paired_summary_and_incomplete_refusal) ... ok\ntest_native_and_candidate_matrix_executes (legacy_test_epu_query_anchor.ExperimentTests.test_native_and_candidate_matrix_executes) ... ok\ntest_exact_one_percentage_point_passes (legacy_test_prerun_integrity.PreRunIntegrityTests.test_exact_one_percentage_point_passes) ... ok\ntest_below_and_above_threshold (legacy_test_prerun_integrity.PreRunIntegrityTests.test_below_and_above_threshold) ... ok\ntest_dry_run_never_nominates_or_closes_utility (legacy_test_prerun_integrity.PreRunIntegrityTests.test_dry_run_never_nominates_or_closes_utility) ... ok\ntest_unknown_phase_refused (legacy_test_prerun_integrity.PreRunIntegrityTests.test_unknown_phase_refused) ... ok\ntest_label_cannot_change_across_corruptions (legacy_test_prerun_integrity.PreRunIntegrityTests.test_label_cannot_change_across_corruptions) ... ok\ntest_malformed_result_values_refused (legacy_test_prerun_integrity.PreRunIntegrityTests.test_malformed_result_values_refused) ... ok\ntest_duplicate_expected_axes_refused (legacy_test_prerun_integrity.PreRunIntegrityTests.test_duplicate_expected_axes_refused) ... ok\ntest_initial_prediction_must_match_direct (legacy_test_prerun_integrity.PreRunIntegrityTests.test_initial_prediction_must_match_direct) ... ok\n\n----------------------------------------------------------------------\nRan 84 tests in 19.651s\n\nOK\n"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ruff",
+        "check",
+        "public_preflight.py",
+        "candidate",
+        "auditor",
+        "--select",
+        "E9,F,B,C4,PIE,RUF,PERF"
+      ],
+      "exit_code": 0,
+      "name": "ruff",
+      "output": "All checks passed!\n"
+    }
+  ],
+  "data_payload_opened": false,
+  "environment": {
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.15.0"
+  },
+  "finished_at": "2026-10-18T09:25:58.232547+00:00",
+  "schema_version": 1,
+  "scientific_disposition": "NOT_EVALUATED",
+  "scope": "Data-free source and generated-fixture verification; no scientific outcome.",
+  "source_sha256": {
+    ".github/workflows/verify.yml": "efec72224905e07ea7dea89d7900ebd20901e5d746776dba590cb8637b75ff28",
+    ".gitignore": "06d38bae8488402928171a69bef40f05a7ad3e567995f571f7b86e21182f1e96",
+    ".ruff_cache/.gitignore": "9e3a60f1e6ec4ae60215c11d54b171392745ec25e9dded433d5bd921363af316",
+    ".ruff_cache/0.15.20/13053110807356013578": "327fc60a9305268d6438872853287d5ab204507201d72e336135a0252fae8943",
+    ".ruff_cache/0.15.20/13768468261780754328": "9908eda02d2b30c028cbdae73fe8df4dea6f2d1d85b1d60ebfee1b9bc7b7cc6d",
+    ".ruff_cache/0.15.20/16388636319043806893": "a87c3650557d90546257c5a7d2f3a24d9e6744ef1b9f4521d30f12453c6dc96f",
+    ".ruff_cache/CACHEDIR.TAG": "5953156d7e0c564a427251316eaf26f8870e6483ae2197f916b630e4f93e31ae",
+    "CHANGELOG.md": "e6323b5717ea2510cda305495c4285641aefdeda474224d832adb533bd1577ff",
+    "CITATION.cff": "74269c26744c96a6f82cf9a44002526002456300095cdd261c7869f2d08d8bd8",
+    "CONTRIBUTING.md": "a8683c25a9f28c74c2427630846d0ecd87491f63eec0e818ce14390971bfd658",
+    "LICENSE": "f2a78357a3c0816b53385c0e1e41e05a375e8cfee757d04ef708e066694117fe",
+    "PROTOCOL.md": "36b51914260f438c3a03751d6edc2234527ea2a90308a250e360b880821ac576",
+    "README.md": "b801065f7b37858249363d2867e42b2dc8b2cde4be12a2762f94fbbb59454346",
+    "REVIEW.md": "e8d37daf813b32e9df76407f0942223b0dc082e6a354d753a25102e869a90738",
+    "SCIENTIFIC_SPEC.md": "5e3f6b1d3650a8c2c245159b8f3246e7a2adb9ae9ab4ba08d3ca35e8831ac1a9",
+    "SECURITY.md": "11826bc28370c6746d98f867f62d987fadc0da4f05da78b69b4c397749d703f9",
+    "TEST_CONTRACT.md": "f7a7c44bb69a593345443391909093223dab70624abbbe6f6e090e5511429aab",
+    "auditor/trace_audit.py": "7d96c0e0ec4cfa9f259a23fb7a8a06ca72dfd63bfbda79b3c610d505d4102b08",
+    "candidate/analyze_results.py": "f83156430766731234452ccbde6a3b66075470b11d47401d78a99c15eaeb3b59",
+    "candidate/epu_diagnostics.py": "c1cd288ffed1a20ac1a34e7ac9d227038675432619b114ef468248b78af04899",
+    "candidate/epu_query_anchor.py": "e11578c2d3a6b166a8bd0888f23d4cab7547fb4667440e1410e47f676f9e91ec",
+    "candidate/recovery_budget.py": "f00ce47b9ac3296e41a7ff495cd9db5001d40247f5e438f0aaa42618d1d4dcb0",
+    "candidate/result_contract.py": "1d4f1c40809230ebfb740df14d5ea6fc1b5918a4a874f7a8dca02c3990235167",
+    "candidate/run_study.py": "6344d54942265d50f8ae521c839621744a574928dbfd240ca095a210bc491102",
+    "candidate/safe_io.py": "8d3a18ca70de1d9a7ac30cc94cee0ed30595fd320583fb8da28b61c5fe185bd5",
+    "public_preflight.py": "49583623ec4f539a27ce9edc564cea71ca12295637cf26dd778df776b1d05459",
+    "pyproject.toml": "7576565738bae5c7af91f1fc7a39d24c44104898a1c78dd709f88c2a5653dca9",
+    "reference/code/epu_reference.py": "0d73134bc7854332b8c5038dbc070d1317d93829b429ae1302eb3091af23d660",
+    "tests/fixtures/predecessor/PROTOCOL.md": "36b51914260f438c3a03751d6edc2234527ea2a90308a250e360b880821ac576",
+    "tests/fixtures/predecessor/SCIENTIFIC_SPEC.md": "5e3f6b1d3650a8c2c245159b8f3246e7a2adb9ae9ab4ba08d3ca35e8831ac1a9",
+    "tests/fixtures/predecessor/analyze_results.py": "f83156430766731234452ccbde6a3b66075470b11d47401d78a99c15eaeb3b59",
+    "tests/fixtures/predecessor/epu_diagnostics.py": "68fa17e67ba547692dc161002a15b4150591bda791ae721eeec571b51b6ecaa1",
+    "tests/fixtures/predecessor/epu_query_anchor.py": "d7966ce4c41d82d2110740b85cb101868c7aa40edc0fda8fc748eec7b924c5d5",
+    "tests/fixtures/predecessor/result_contract.py": "c7efe2893a7744f2bc8f07d0bf3151fe6247e5794eb262903297f5c744be1a25",
+    "tests/fixtures/predecessor/run_study.py": "8b162ca85de460006a6707b41241e94272ab2c1ae6fd3a5ff8774b76d5b96154",
+    "tests/fixtures/predecessor/safe_io.py": "8d3a18ca70de1d9a7ac30cc94cee0ed30595fd320583fb8da28b61c5fe185bd5",
+    "tests/legacy_test_epu_query_anchor.py": "111b234dacff3e44aa104936163f97df8b8d0e276b9492f525cf9e5c1e3b741f",
+    "tests/legacy_test_prerun_integrity.py": "1ac411ddc300317894a1b3a4c7077893d3013c477699dd272daa12a65da516ee",
+    "tests/legacy_test_result_contract.py": "2354d7949040b88d4e918e5dcf688d9a3e8cdf75a7eda6cbb17740c22c22641b",
+    "tests/legacy_test_run_completion.py": "654125f062702e3287b6227f37072c0a1e318e77f42d29468ad21375de072ea8",
+    "tests/legacy_test_staged_integrity.py": "a38fe3a98ec1979f0c8aaa80740d62bec3ae72b1bba5966dd6b0e9f2b68c5394",
+    "tests/test_completed_bundle_contract.py": "aa6869e256e5c280115b6d145bdcf118bbfa271d94b6c230a5932f7702decd8c",
+    "tests/test_numerical_contract.py": "2c12e0e92b50758a3356949358a440b16e9681499f3581ec1eae648e2abca1f1",
+    "tests/test_public_hardening.py": "34b2339ad6610e79e2a02d72190ddcaa65757d7c2fb875313372d8e626bdc076",
+    "tests/test_recovery_contract.py": "4d30551aa9a6a78ff3ff9b2926c07c34ec053d0ffeea0cf6d9cfd737ba3a3b50",
+    "tests/test_retained_science.py": "52f817e400c0a1bdb4ff725d6c936f60711247ebd00a2f63311aa862f0c79688"
+  },
+  "started_at": "2026-10-18T09:25:26.997233+00:00",
+  "status": "PASS_PUBLIC_SOURCE_REVIEW"
+}

@@ -1,0 +1,14 @@
+[project]
+name = "epu-qa1-public-readiness"
+version = "0.1.0"
+description = "Evidence-preserving public verification for EPU-QA1"
+requires-python = ">=3.11"
+license = "BSD-3-Clause"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E9", "F", "B", "C4", "PIE", "RUF", "PERF"]
+
