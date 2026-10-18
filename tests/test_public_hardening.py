@@ -1,12 +1,32 @@
 """Generated, data-free regression checks for the public hardening changes."""
+from pathlib import Path
+import tempfile
 import unittest
 
 from auditor import trace_audit
 import epu_diagnostics as diagnostics
 import epu_query_anchor as anchor
+import public_preflight
 
 
 class StrictAlignmentTests(unittest.TestCase):
+    def test_release_manifest_excludes_generated_state(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            retained = (root / ".github" / "workflows" / "verify.yml", root / ".gitignore")
+            generated = (
+                root / ".ruff_cache" / "entry",
+                root / ".git" / "objects" / "entry",
+                root / "__pycache__" / "entry.pyc",
+                root / "verification" / "run" / "RECEIPT.json",
+            )
+            for path in (*retained, *generated):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b"fixture")
+            manifest = {path.relative_to(root).as_posix() for path in public_preflight.release_files(root)}
+            self.assertTrue(all(path.relative_to(root).as_posix() not in manifest for path in generated))
+            self.assertEqual(manifest, {".github/workflows/verify.yml", ".gitignore"})
+
     def test_model_dot_refuses_dimension_mismatch(self):
         with self.assertRaisesRegex(ValueError, "dimension mismatch"):
             anchor.dot((1.0, 2.0), (1.0,))

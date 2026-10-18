@@ -19,6 +19,7 @@ CANDIDATE = HERE / "candidate"
 AUDITOR = HERE / "auditor"
 TESTS = HERE / "tests"
 MAX_SOURCE_BYTES = 1_000_000
+GENERATED_DIRS = {".git", ".pytest_cache", ".ruff_cache", ".venv", "__pycache__"}
 
 
 def now() -> str:
@@ -52,12 +53,12 @@ def python_files() -> list[Path]:
     return files
 
 
-def release_files() -> list[Path]:
+def release_files(root: Path = HERE) -> list[Path]:
     files = sorted(
-        path for path in HERE.rglob("*")
+        path for path in root.rglob("*")
         if path.is_file()
-        and not path.is_relative_to(HERE / "verification")
-        and "__pycache__" not in path.parts
+        and not path.is_relative_to(root / "verification")
+        and not GENERATED_DIRS.intersection(path.relative_to(root).parts)
         and path.suffix not in {".pyc", ".pyo"}
     )
     if not files:
