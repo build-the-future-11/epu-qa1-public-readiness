@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import platform
 import shutil
+import stat
 import subprocess
 import sys
 
@@ -26,21 +27,33 @@ def now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def file_identity(value: os.stat_result) -> tuple[int, int, int, int, int, int]:
+    """Return the fields that must remain stable for an admitted source file."""
+    return (
+        value.st_dev,
+        value.st_ino,
+        value.st_mode,
+        value.st_size,
+        value.st_mtime_ns,
+        value.st_ctime_ns,
+    )
+
+
 def stable_hash(path: Path) -> str:
-    if path.is_symlink() or not path.is_file():
-        raise ValueError(f"non-regular public source: {path}")
-    before = path.stat()
-    if before.st_size > MAX_SOURCE_BYTES:
-        raise ValueError(f"oversized public source: {path}")
+    """Hash one bounded regular file while refusing links and replacements."""
+    flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
     digest = hashlib.sha256()
-    with path.open("rb") as handle:
+    with os.fdopen(os.open(path, flags), "rb") as handle:
+        before = os.fstat(handle.fileno())
+        if not stat.S_ISREG(before.st_mode):
+            raise ValueError(f"non-regular public source: {path}")
+        if before.st_size > MAX_SOURCE_BYTES:
+            raise ValueError(f"oversized public source: {path}")
         while block := handle.read(65_536):
             digest.update(block)
-    after = path.stat()
-    def identity(value: os.stat_result) -> tuple[int, int, int, int]:
-        return value.st_dev, value.st_ino, value.st_size, value.st_mtime_ns
-
-    if identity(before) != identity(after):
+        after = os.fstat(handle.fileno())
+    final = path.stat(follow_symlinks=False)
+    if file_identity(before) != file_identity(after) or file_identity(after) != file_identity(final):
         raise ValueError(f"source changed while hashing: {path}")
     return digest.hexdigest()
 
@@ -111,9 +124,18 @@ def command(args: list[str], *, timeout: int, scratch: Path) -> dict[str, object
 
 
 def write_new(path: Path, value: object) -> None:
+    """Create and durably synchronize a JSON receipt and its directory entry."""
     with path.open("x", encoding="utf-8") as handle:
         json.dump(value, handle, indent=2, sort_keys=True, allow_nan=False)
         handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    if hasattr(os, "O_DIRECTORY"):
+        descriptor = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(descriptor)
+        finally:
+            os.close(descriptor)
 
 
 def main() -> int:
@@ -136,9 +158,14 @@ def main() -> int:
     code = 2
     try:
         paths = python_files()
-        receipt["source_sha256"] = {
+        source_manifest = {
             str(path.relative_to(HERE)): stable_hash(path) for path in release_files()
         }
+        receipt["source_sha256"] = source_manifest
+        canonical_manifest = json.dumps(
+            source_manifest, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        ).encode("ascii")
+        receipt["source_manifest_sha256"] = hashlib.sha256(canonical_manifest).hexdigest()
         core_paths = [
             path for path in paths
             if path == HERE / "public_preflight.py"
@@ -178,6 +205,9 @@ def main() -> int:
             receipt["checks"].append({"name": "ruff", "status": "SKIPPED_NOT_INSTALLED"})
         receipt["status"] = "PASS_PUBLIC_SOURCE_REVIEW"
         code = 0
+    except (KeyboardInterrupt, SystemExit) as exc:
+        receipt.update(status="INTERRUPTED", error=f"{type(exc).__name__}: {exc}")
+        raise
     except Exception as exc:
         receipt.update(status="FAIL_PUBLIC_SOURCE_REVIEW", error=f"{type(exc).__name__}: {exc}")
     finally:

@@ -88,8 +88,9 @@ the fixed experimental configuration are unchanged. This lower bound guarantees
 neither accurate energy differences near the bound nor empirical performance.
 Normalization retains every E4 output that passes the centered-unit-ball check.
 Only when that output fails does it center reference-subtracted residuals and
-normalize again, then validate the result. See NUMERICAL_AMENDMENT.md for the
-retained failure fixtures and the limits of this separately versioned repair.
+normalize again, then validate the result. The retained numerical tests cover
+the observed cancellation cases and exact parity for previously accepted
+fixtures; they do not establish universal floating-point accuracy.
 Time O(Tkd), bank storage O(kd), working state O(k+d), optional trace O(T(k+d)).
 The direct control uses the same bank and decoder in O(kd). Serial CPU execution
 uses no accelerator or numerical-library thread pool.

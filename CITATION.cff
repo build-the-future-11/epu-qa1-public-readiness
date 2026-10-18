@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this engineering artifact, cite the software release. Do not cite it as confirmatory efficacy evidence."
 title: "EPU-QA1 Public Readiness"
 type: software
-version: 0.1.0
+version: 0.1.1
 date-released: 2026-10-18
 authors:
   - name: Ryan

@@ -1,15 +1,16 @@
-# Executable E5-R1 engineering test contract
+# Public verification test contract
 
 Run from the package directory:
 
 ```sh
-rtk proxy python3 -B -m unittest discover -v
+python3 -B public_preflight.py --output verification/local-unique-id
 ```
 
-The final default-discovery run passed 80 small stdlib tests. No real dataset was
-opened. Native-reference parity cases read only the pinned original Python source;
-the staged wrapper resolves that path explicitly, with `EPU_REFERENCE_ROOT` as an
-optional relocation setting. Production reference hash checking is unchanged.
+The v0.1.1 public gate passes 88 small standard-library tests. No real dataset
+was opened. Native-reference parity cases read only the bundled, digest-pinned
+reference source. `public_preflight.py` supplies the isolated import and fixture
+environment used by the contract, so raw discovery without that environment is
+not the supported complete gate.
 
 | Current suite | Cases | Evidence covered |
 |---|---:|---|
@@ -17,6 +18,7 @@ optional relocation setting. Production reference hash checking is unchanged.
 | `test_numerical_contract.py` | 7 | Unchanged E5 normalization and supported beta domain |
 | `test_retained_science.py` | 27 | 14 unchanged model cases, five data/matrix cases, eight endpoint/statistics cases selected explicitly from retained legacy sources |
 | `test_completed_bundle_contract.py` | 17 | Six unchanged accumulator cases and eleven completed-bundle integrity/regeneration cases adapted to call the unchanged completed-run validator |
+| `test_public_hardening.py` | 8 | Public manifest exclusions, link refusal, exclusive durable receipts, interrupt classification, strict vector alignment, and configuration validation |
 
 The original E5 test files remain byte-identical under `legacy_test_*.py`. They
 are not default-discovered as standalone R1 suites because their old dry-run CLI,
@@ -35,15 +37,12 @@ The 19 old orchestration cases not run verbatim are replaced as follows:
 | `legacy_test_run_completion`: final hash deadline and fresh admission | Replaced by R1 final-hash deadline, blocked sustained admission, and pause-during-admission cases. |
 | `legacy_test_staged_integrity`: two E5-specific shared-budget freeze cases | Replaced by R1 immutable binding, historical-ledger identity, clone/shared-ledger and expanded-budget refusal tests. |
 
-The previously frozen staged revision is preserved in `staged_v1/`, including its
-freeze `3c2ee69d387212236f3052bf2b81b23b6b578b84dbf59b960909bb944ccba9cc`,
-23-test receipt and original copied tests. The first new default-discovery run
-reported two source-path errors because old parity fixtures inferred a native
-repository from the staged file's parent directory. `TESTS.discovery.log` retains
-both errors. The wrapper's explicit pinned-source resolution fixed this fixture
-location defect; `TESTS.discovery.final.log` retains the passing 80-test run.
-No production recurrence, dataset logic or recovery control flow changed during
-this test-contract revision.
+The original E5 compatibility tests and scientific sources are retained under
+`tests/legacy_test_*.py` and `tests/fixtures/predecessor/`. Their historical
+orchestration interfaces are preserved for auditability, while the adapted
+public tests exercise the current completed-bundle and recovery contracts.
+No production recurrence, dataset logic, scientific matrix, or recovery control
+flow is changed by this public test wrapper.
 
 These checks establish bounded implementation behavior. They do not establish
 real R1 execution, predictive improvement, independent reproduction or confirmation.

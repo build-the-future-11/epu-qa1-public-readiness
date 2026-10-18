@@ -13,8 +13,7 @@ handling, artifact durability, receipt validation, and public reviewability.
 Run the bounded public checks from the repository root:
 
 ```sh
-python3 -B state/epu-public-readiness-20261018/public_preflight.py \
-  --output state/epu-public-readiness-20261018/verification/local
+python3 -B public_preflight.py --output verification/local-unique-id
 ```
 
 The command compiles source, checks fail-closed AST invariants, runs generated
@@ -35,4 +34,8 @@ Before any public exposed-data execution, a separately reviewed release must:
 
 A development H2 pass would only nominate a fresh confirmatory design. A
 failure remains a reportable result and must not be tuned away.
+
+The verifier is dependency-free. Its optional Ruff check runs when `ruff` is
+already available; the receipt records an explicit skip when it is not. GitHub
+Actions runs Ruff separately before accepting the verifier receipt.
 

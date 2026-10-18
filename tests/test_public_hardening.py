@@ -1,7 +1,10 @@
 """Generated, data-free regression checks for the public hardening changes."""
+import json
 from pathlib import Path
+import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from auditor import trace_audit
 import epu_diagnostics as diagnostics
@@ -10,6 +13,39 @@ import public_preflight
 
 
 class StrictAlignmentTests(unittest.TestCase):
+    def test_stable_hash_refuses_symlink(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            target = root / "target"
+            target.write_bytes(b"fixture")
+            link = root / "link"
+            link.symlink_to(target)
+            with self.assertRaises((OSError, ValueError)):
+                public_preflight.stable_hash(link)
+
+    def test_write_new_is_exclusive_and_valid_json(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "RECEIPT.json"
+            public_preflight.write_new(path, {"status": "PASS"})
+            self.assertEqual(json.loads(path.read_text(encoding="utf-8")), {"status": "PASS"})
+            self.assertTrue(path.read_bytes().endswith(b"\n"))
+            with self.assertRaises(FileExistsError):
+                public_preflight.write_new(path, {"status": "REPLACED"})
+
+    def test_preflight_records_interrupt_before_propagating(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "verification"
+            argv = ["public_preflight.py", "--output", str(output)]
+            with (
+                patch.object(sys, "argv", argv),
+                patch.object(public_preflight, "python_files", side_effect=KeyboardInterrupt),
+                self.assertRaises(KeyboardInterrupt),
+            ):
+                public_preflight.main()
+            receipt = json.loads((output / "RECEIPT.json").read_text(encoding="utf-8"))
+            self.assertEqual(receipt["status"], "INTERRUPTED")
+            self.assertFalse(receipt["data_payload_opened"])
+
     def test_release_manifest_excludes_generated_state(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
